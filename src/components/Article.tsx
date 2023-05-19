@@ -4,7 +4,7 @@ const Article = ({ data }: { data: any }) => {
   const createdAt = calculateTimePassed(data.createdAt);
 
   return (
-    <article className="py-4 mx-4 border-b flex flex-col gap-1">
+    <article className="py-4 mx-4 border-b flex flex-col gap-2">
       <div className="text-sm flex items-center">
         <div className="mr-2">
           <svg
@@ -35,11 +35,22 @@ const Article = ({ data }: { data: any }) => {
 
           {data.replyTitle ? (
             <div className="text-sm text-black/60 truncate border-l-4 pl-1">{data.replyTitle}</div>
-          ) : (
+          ) : data.excerpt ? (
             <div className="text-sm text-black truncate">{data.excerpt}</div>
+          ) : data.mediaMeta[1].type === "video/megapx" ? (
+            <video
+              controls
+              muted
+              autoPlay
+              playsInline
+              src={`${data.mediaMeta[1].url}`}
+              className="text-sm text-black truncate rounded-md"
+            />
+          ) : (
+            "ph"
           )}
 
-          <div className="flex text-sm opacity-[35%]">
+          <div className="flex text-sm">
             <div className="pr-4 flex items-center">
               <img
                 title="愛心"
@@ -50,7 +61,7 @@ const Article = ({ data }: { data: any }) => {
                 data-nimg="intrinsic"
                 className="h-4 w-4"
               />
-              <div className="pl-[6px]">{data.likeCount}</div>
+              <div className="pl-[6px] text-black/[35%]">{data.likeCount}</div>
             </div>
             <div className="pr-4 flex">
               <svg
@@ -63,28 +74,31 @@ const Article = ({ data }: { data: any }) => {
               >
                 <path
                   d="M1.333 12a10.667 10.667 0 1 0 21.334 0 10.667 10.667 0 1 0-21.334 0zM15.5 6.5h-7A3.5 3.5 0 0 0 5 10v3.5A3.5 3.5 0 0 0 8.5 17H9v1.369a.75.75 0 0 0 1.238.57L12.5 17h3a3.5 3.5 0 0 0 3.5-3.5V10a3.5 3.5 0 0 0-3.5-3.5Z"
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                 ></path>
               </svg>
-              <div>{data.collectionCount}</div>
+              <div className="text-black/[35%]">{data.commentCount}</div>
             </div>
-            <svg
-              className="h-5 w-5 mr-[6px]"
-              viewBox="0 0 24 24"
-              focusable="false"
-              role="img"
-              aria-hidden="true"
-            >
-              <path d="M17.65 21.39 12 17.5l-5.65 3.88A1.5 1.5 0 0 1 4 20.15V5a2.5 2.5 0 0 1 2.5-2.5h11A2.5 2.5 0 0 1 20 5v15.15a1.5 1.5 0 0 1-2.35 1.24z"></path>
-            </svg>
-            收藏
+            <div className="flex  opacity-40">
+              <svg
+                className="h-5 w-5 mr-[6px]"
+                fill="#e1e1e1"
+                viewBox="0 0 24 24"
+                focusable="false"
+                role="img"
+                aria-hidden="true"
+              >
+                <path d="M17.65 21.39 12 17.5l-5.65 3.88A1.5 1.5 0 0 1 4 20.15V5a2.5 2.5 0 0 1 2.5-2.5h11A2.5 2.5 0 0 1 20 5v15.15a1.5 1.5 0 0 1-2.35 1.24z"></path>
+              </svg>
+              收藏
+            </div>
           </div>
         </div>
 
-        {data.mediaMeta[0]?.thumbnail && (
+        {data.mediaMeta[0]?.thumbnail && !(data.mediaMeta[1].type === "video/megapx") && (
           <div className="flex min-w-fit items-end ml-4">
             <img
-              className="h-[70px] w-[70px] rounded-lg shadow object-cover"
+              className="h-[70px] w-[70px] rounded-xl shadow object-cover"
               src={data.mediaMeta[0]?.thumbnail}
             />
           </div>
