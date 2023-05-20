@@ -9,18 +9,14 @@ const ThreadBody = () => {
   const filteredData = data.slice(0, 11);
 
   return (
-    <main className="flex justify-center w-full lg:w-2/5">
-      <div className="w-full lg:pt-5 lg:mx-3">
-        <div className="bg-white lg:rounded-[4px]">
-          <CategorySwitch />
-          <div className="lg:mx-14">
-            {filteredData.map((article: any) => {
-              return <Article key={article.id} data={article} />;
-            })}
-          </div>
-          <MobileFooter />
-        </div>
+    <main className="bg-white lg:rounded-[4px] w-full lg:w-1/2 lg:mt-5 lg:mx-3">
+      <CategorySwitch />
+      <div className="lg:mx-14">
+        {filteredData.map((article: any) => {
+          return <Article key={article.id} data={article} />;
+        })}
       </div>
+      <MobileFooter />
     </main>
   );
 };
